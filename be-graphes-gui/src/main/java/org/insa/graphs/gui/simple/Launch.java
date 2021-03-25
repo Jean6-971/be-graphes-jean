@@ -17,6 +17,8 @@ import org.insa.graphs.model.io.BinaryGraphReader;
 import org.insa.graphs.model.io.GraphReader;
 import org.insa.graphs.model.io.PathReader;
 
+	//Jean Van Inghelandt - 25/03/2021
+
 public class Launch {
 
     /**
