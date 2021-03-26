@@ -213,8 +213,11 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public float getLength() {
-        // TODO:
-        return 0;
+    	int len = 0;
+    	for (int i=0;i<this.arcs.size();i++) {
+    		len += this.arcs.get(i).getLength();
+    	}
+        return len;
     }
 
     /**
