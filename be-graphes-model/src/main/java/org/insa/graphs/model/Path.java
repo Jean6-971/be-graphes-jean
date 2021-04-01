@@ -213,7 +213,7 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public float getLength() {
-    	int len = 0;
+    	float len = 0;
     	for (int i=0;i<this.arcs.size();i++) {
     		len += this.arcs.get(i).getLength();
     	}
@@ -231,8 +231,7 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public double getTravelTime(double speed) {
-        // TODO:
-        return 0;
+        return (this.getLength()/speed)*3.6;
     }
 
     /**
