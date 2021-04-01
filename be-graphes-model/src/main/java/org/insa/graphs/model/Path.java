@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+//import org.w3c.dom.Node;
+
 /**
  * <p>
  * Class representing a path between nodes in a graph.
@@ -35,7 +37,22 @@ public class Path {
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+        
+        /*for (int i=0;i<graph.size()-1;i++) {
+    		arcs.add();
+    	}*/
+        
+        arcs = nodes.get(0).getSuccessors();
+        
+        /*for (Node node: nodes) {
+        	if (node.hasSuccessors()) {
+        		if (node.getSuccessors()) {
+        			throw new IllegalArgumentException("The list of nodes is not valid");
+        		}
+        	}
+        }*/
+    	
+        
         return new Path(graph, arcs);
     }
 
