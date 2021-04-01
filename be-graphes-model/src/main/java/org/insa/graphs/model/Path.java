@@ -201,8 +201,7 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
-        return false;
+        return (this.isEmpty() || this.size() == 1 || (this.arcs.get(0).getOrigin() == this.getOrigin() && this.arcs.get(0).getDestination() == this.arcs.get(1).getOrigin())) ;
     }
 
     /**
@@ -243,8 +242,11 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
-        // TODO:
-        return 0;
+    	double mintime = 0;
+    	for (int i=0;i<this.arcs.size();i++) {
+    		mintime += this.arcs.get(i).getMinimumTravelTime();
+    	}
+        return mintime;
     }
 
 }
