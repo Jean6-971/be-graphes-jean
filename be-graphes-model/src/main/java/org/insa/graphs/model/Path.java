@@ -36,19 +36,30 @@ public class Path {
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
-        List<Arc> arcs = new ArrayList<Arc>();
+    	List<Arc> arcs = new ArrayList<Arc>();
         boolean valide = false;
+        boolean test = false;
         
-        /*for (int i=0;i<graph.size()-1;i++) {
-    		arcs.add();
-    	}*/
-        
+        if (nodes.size() == 0) {
+        	return new Path(graph);
+        } else if (nodes.size() == 1) {
+        	return new Path(graph, nodes.get(0));
+        }
         
         for (int i=0;i<nodes.size()-1;i++) {
-        	for (Arc arc : nodes.get(i).getSuccessors()) {
-        		valide = (valide || (arc.getDestination() == nodes.get(i+1)));
+        	List<Arc> voisins = nodes.get(i).getSuccessors();
+        	Arc arc_min = voisins.get(0);
+        	for (Arc arc : voisins) {
+        		if (test = (arc.getDestination() == nodes.get(i+1))) {
+        			if (arc_min.getMinimumTravelTime() > arc.getMinimumTravelTime()) {
+        				arc_min = arc;
+        			}
+        		}
+        		valide = (valide || test);
         	}
+        	arcs.add(arc_min);
         }
+        
     	if (!valide) {
     		throw new IllegalArgumentException("The list of nodes is not valid");
     	}
@@ -74,14 +85,28 @@ public class Path {
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
         boolean valide = false;
+        boolean test = false;
         
-        
+        if (nodes.size() == 0) {
+        	return new Path(graph);
+        } else if (nodes.size() == 1) {
+        	return new Path(graph, nodes.get(0));
+        }
         
         for (int i=0;i<nodes.size()-1;i++) {
-        	for (Arc arc : nodes.get(i).getSuccessors()) {
-        		valide = (valide || (arc.getDestination() == nodes.get(i+1)));
+        	List<Arc> voisins = nodes.get(i).getSuccessors();
+        	Arc arc_min = voisins.get(0);
+        	for (Arc arc : voisins) {
+        		if (test = (arc.getDestination() == nodes.get(i+1))) {
+        			if (arc_min.getLength() > arc.getLength()) {
+        				arc_min = arc;
+        			}
+        		}
+        		valide = (valide || test);
         	}
+        	arcs.add(arc_min);
         }
+        
     	if (!valide) {
     		throw new IllegalArgumentException("The list of nodes is not valid");
     	}
