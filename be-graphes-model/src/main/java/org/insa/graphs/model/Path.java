@@ -37,21 +37,21 @@ public class Path {
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
+        boolean valide = false;
         
         /*for (int i=0;i<graph.size()-1;i++) {
     		arcs.add();
     	}*/
         
-        arcs = nodes.get(0).getSuccessors();
         
-        /*for (Node node: nodes) {
-        	if (node.hasSuccessors()) {
-        		if (node.getSuccessors()) {
-        			throw new IllegalArgumentException("The list of nodes is not valid");
-        		}
+        for (int i=0;i<nodes.size()-1;i++) {
+        	for (Arc arc : nodes.get(i).getSuccessors()) {
+        		valide = (valide || (arc.getDestination() == nodes.get(i+1)));
         	}
-        }*/
-    	
+        }
+    	if (!valide) {
+    		throw new IllegalArgumentException("The list of nodes is not valid");
+    	}
         
         return new Path(graph, arcs);
     }
@@ -73,7 +73,19 @@ public class Path {
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+        boolean valide = false;
+        
+        
+        
+        for (int i=0;i<nodes.size()-1;i++) {
+        	for (Arc arc : nodes.get(i).getSuccessors()) {
+        		valide = (valide || (arc.getDestination() == nodes.get(i+1)));
+        	}
+        }
+    	if (!valide) {
+    		throw new IllegalArgumentException("The list of nodes is not valid");
+    	}
+        
         return new Path(graph, arcs);
     }
 
@@ -218,7 +230,11 @@ public class Path {
      *
      */
     public boolean isValid() {
-        return (this.isEmpty() || this.size() == 1 || (this.arcs.get(0).getOrigin() == this.getOrigin() && this.arcs.get(0).getDestination() == this.arcs.get(1).getOrigin())) ;
+    	boolean res = true;
+    	for (int i=0;i<this.arcs.size()-1;i++) {
+    		res = res && this.arcs.get(i).getDestination() == this.arcs.get(i+1).getOrigin();
+    	}
+        return (this.isEmpty() || this.size() == 1 || (this.arcs.get(0).getOrigin() == this.getOrigin() && res )) ;
     }
 
     /**
