@@ -38,9 +38,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Tas.remove(x) ;
         	x.setMark(true) ;
         	for (Arc arc : x.getSommet().getSuccessors()) {
+        		if (!data.isAllowed(arc)) {
+                    continue;
+                }
         		Label y = tabLabel[arc.getDestination().getId()] ;
         		if (!y.getMark()) {
-        			float update = x.getCost()+arc.getLength() ;
+        			float update = x.getCost()+(float)data.getCost(arc) ;
         			y.setCost(java.lang.Math.min(y.getCost(),update)) ;
         			if (y.getCost() == update) {
         				Tas.insert(y) ;

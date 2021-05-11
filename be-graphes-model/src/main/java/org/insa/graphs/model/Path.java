@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 //import org.w3c.dom.Node;
 
 /**
@@ -36,9 +37,7 @@ public class Path {
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
     	List<Arc> arcs = new ArrayList<Arc>();
-        boolean valide = false;
-        boolean test = false;
-        
+    	
         if (nodes.size() == 0) {
         	return new Path(graph);
         } else if (nodes.size() == 1) {
@@ -46,23 +45,27 @@ public class Path {
         }
         
         for (int i=0;i<nodes.size()-1;i++) {
-        	List<Arc> voisins = nodes.get(i).getSuccessors();
-        	Arc arc_min = voisins.get(0);
-        	for (Arc arc : voisins) {
-        		if (test = (arc.getDestination() == nodes.get(i+1))) {
-        			if (arc_min.getMinimumTravelTime() > arc.getMinimumTravelTime()) {
-        				arc_min = arc;
-        			}
-        		}
-        		valide = (valide || test);
+        	if (nodes.get(i).hasSuccessors()) {
+	        	List<Arc> voisins = nodes.get(i).getSuccessors();
+	        	float min = Float.MAX_VALUE;
+	        	Arc arc_min = null;
+	        	for (Arc itera : voisins) {
+	        		if (itera.getDestination() == nodes.get(i+1)) {
+	        			if (min > itera.getMinimumTravelTime()) {
+	        				min = itera.getLength();
+	        				arc_min = itera;
+	        			}
+	        		}
+	        	}
+	        	if (arc_min != null) {
+	        		arcs.add(arc_min);
+	        	} else {
+	        		throw new IllegalArgumentException("The list of nodes is not valid");
+	        	}
+        	} else {
+        		throw new IllegalArgumentException("The list of nodes is not valid");
         	}
-        	arcs.add(arc_min);
         }
-        
-    	if (!valide) {
-    		throw new IllegalArgumentException("The list of nodes is not valid");
-    	}
-        
         return new Path(graph, arcs);
     }
 
@@ -82,8 +85,6 @@ public class Path {
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        boolean valide = false;
-        boolean test = false;
         
         if (nodes.size() == 0) {
         	return new Path(graph);
@@ -92,22 +93,27 @@ public class Path {
         }
         
         for (int i=0;i<nodes.size()-1;i++) {
-        	List<Arc> voisins = nodes.get(i).getSuccessors();
-        	Arc arc_min = voisins.get(0);
-        	for (Arc arc : voisins) {
-        		if (test = (arc.getDestination() == nodes.get(i+1))) {
-        			if (arc_min.getLength() > arc.getLength()) {
-        				arc_min = arc;
-        			}
-        		}
-        		valide = (valide || test);
+        	if (nodes.get(i).hasSuccessors()) {
+	        	List<Arc> voisins = nodes.get(i).getSuccessors();
+	        	float min = Float.MAX_VALUE;
+	        	Arc arc_min = null;
+	        	for (Arc itera : voisins) {
+	        		if (itera.getDestination() == nodes.get(i+1)) {
+	        			if (min > itera.getLength()) {
+	        				min = itera.getLength();
+	        				arc_min = itera;
+	        			}
+	        		}
+	        	}
+	        	if (arc_min != null) {
+	        		arcs.add(arc_min);
+	        	} else {
+	        		throw new IllegalArgumentException("The list of nodes is not valid");
+	        	}
+        	} else {
+        		throw new IllegalArgumentException("The list of nodes is not valid");
         	}
-        	arcs.add(arc_min);
         }
-        
-    	if (!valide) {
-    		throw new IllegalArgumentException("The list of nodes is not valid");
-    	}
         
         return new Path(graph, arcs);
     }
