@@ -21,7 +21,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         ShortestPathSolution solution = null ;
         
         BinaryHeap<Label> Tas = new BinaryHeap<Label>() ;
-        ArrayList<Arc> tasArcs = new ArrayList<Arc>() ;
+        ArrayList<Arc> listArcs = new ArrayList<Arc>() ;
         Label[] tabLabel = new Label[data.getGraph().size()] ;
         
         for (Node node: data.getGraph().getNodes()) {
@@ -55,13 +55,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         Label c = d;
         while (c.getFather() != null) {
-        	tasArcs.add(c.getFather());
+        	listArcs.add(c.getFather());
         	c = tabLabel[c.getFather().getOrigin().getId()];
         }
         
-        Collections.reverse(tasArcs);
+        Collections.reverse(listArcs);
         
-        Path solutionPath = new Path(data.getGraph(), tasArcs);
+        Path solutionPath = new Path(data.getGraph(), listArcs);
         
         solution = new ShortestPathSolution(data, Status.OPTIMAL, solutionPath);
         return solution;
