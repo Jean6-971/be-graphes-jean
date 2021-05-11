@@ -39,6 +39,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Label x = Tas.findMin() ;
         	Tas.remove(x) ;
         	x.setMark(true) ;
+        	System.out.println(x.getCost());
         	notifyNodeReached(x.getSommet());
         	for (Arc arc : x.getSommet().getSuccessors()) {
         		if (!data.isAllowed(arc)) {
@@ -46,7 +47,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                 }
         		Label y = tabLabel[arc.getDestination().getId()] ;
         		if (!y.getMark()) {
-        			float update = x.getCost()+(float)data.getCost(arc);
+        			double update = x.getCost() + data.getCost(arc);
         			if (y.getCost() > update) {
         				y.setCost(update);
         				if (Tas.exist(y)) {
@@ -58,17 +59,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             				y.setFather(arc);
         				}
         			}
-        			
-        			
-        			
-        			
-        			/**float update = x.getCost()+(float)data.getCost(arc) ;
-        			y.setCost(java.lang.Math.min(y.getCost(),update)) ;
-        			if (y.getCost() == update) {
-        				 
-        				Tas.insert(y);
-        				y.setFather(arc);
-        			}*/
         		}
         	}
         }
