@@ -35,7 +35,7 @@ public class Label implements Comparable<Label>{
     public void setFather(Arc pere) {this.pere = pere;}
     
     public int compareTo(Label other) {
-        return Integer.compare(getSommet().getId(), other.getSommet().getId());
+        return Float.compare(getCost(), other.getCost());
     }
 
 }
