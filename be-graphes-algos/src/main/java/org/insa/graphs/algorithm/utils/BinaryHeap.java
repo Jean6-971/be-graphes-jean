@@ -126,7 +126,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     public boolean exist(E x) {
     	int index = this.array.indexOf(x);
     	
-        return !(index == -1 || index>=this.currentSize);
+        return 0<=index && index<this.currentSize;
     }
 
     @Override
