@@ -32,26 +32,48 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         s.setCost(0) ;
         Tas.insert(s) ;
         
+        notifyOriginProcessed(data.getOrigin());
+        
         Label d = tabLabel[data.getDestination().getId()];
-        while (!d.getMark()) {
+        while (!d.getMark() && !Tas.isEmpty()) {
         	Label x = Tas.findMin() ;
         	Tas.remove(x) ;
         	x.setMark(true) ;
+        	notifyNodeReached(x.getSommet());
         	for (Arc arc : x.getSommet().getSuccessors()) {
         		if (!data.isAllowed(arc)) {
                     continue;
                 }
         		Label y = tabLabel[arc.getDestination().getId()] ;
         		if (!y.getMark()) {
-        			float update = x.getCost()+(float)data.getCost(arc) ;
+        			float update = x.getCost()+(float)data.getCost(arc);
+        			if (y.getCost() > update) {
+        				y.setCost(update);
+        				if (Tas.exist(y)) {
+        					Tas.remove(y);
+        					Tas.insert(y);
+        					y.setFather(arc);
+        				} else {
+        					Tas.insert(y);
+            				y.setFather(arc);
+        				}
+        			}
+        			
+        			
+        			
+        			
+        			/**float update = x.getCost()+(float)data.getCost(arc) ;
         			y.setCost(java.lang.Math.min(y.getCost(),update)) ;
         			if (y.getCost() == update) {
-        				Tas.insert(y) ;
+        				 
+        				Tas.insert(y);
         				y.setFather(arc);
-        			}
+        			}*/
         		}
         	}
         }
+        
+        notifyDestinationReached(data.getDestination());
         
         Label c = d;
         while (c.getFather() != null) {
