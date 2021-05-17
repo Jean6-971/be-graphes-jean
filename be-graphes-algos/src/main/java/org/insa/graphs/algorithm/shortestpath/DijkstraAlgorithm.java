@@ -49,12 +49,13 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         		if (!y.getMark()) {
         			double update = x.getCost() + data.getCost(arc);
         			if (y.getCost() > update) {
-        				y.setCost(update);
         				if (Tas.exist(y)) {
         					Tas.remove(y);
+        					y.setCost(update);
         					Tas.insert(y);
         					y.setFather(arc);
         				} else {
+        					y.setCost(update);
         					Tas.insert(y);
             				y.setFather(arc);
         				}
