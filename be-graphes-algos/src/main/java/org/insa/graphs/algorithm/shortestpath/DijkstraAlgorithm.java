@@ -65,10 +65,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         notifyDestinationReached(data.getDestination());
         
-        Label c = d;
-        while (c.getFather() != null) {
-        	listArcs.add(c.getFather());
-        	c = tabLabel[c.getFather().getOrigin().getId()];
+        Arc c = d.getFather();
+        while (c != null) {
+        	listArcs.add(c);
+        	c = tabLabel[c.getOrigin().getId()].getFather();
         }
         
         Collections.reverse(listArcs);

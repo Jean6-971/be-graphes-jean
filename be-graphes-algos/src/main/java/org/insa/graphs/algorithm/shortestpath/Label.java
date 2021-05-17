@@ -16,7 +16,7 @@ public class Label implements Comparable<Label>{
     public Label(Node courant) {
     	this.sommetCourant = courant ;
     	this.marque = false ;
-    	this.cout = Double.MAX_VALUE ;
+    	this.cout = Double.POSITIVE_INFINITY ;
     	this.pere = null ;
     }
     
