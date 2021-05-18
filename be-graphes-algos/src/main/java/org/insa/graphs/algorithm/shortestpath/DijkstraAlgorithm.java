@@ -3,6 +3,7 @@ package org.insa.graphs.algorithm.shortestpath;
 import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Path;
+import org.insa.graphs.model.Graph;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -15,18 +16,23 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         super(data);
     }
 
+    protected void Initialisation(Label[] tabLabel, Graph graph) {
+    	for (Node node: graph.getNodes()) {
+        	tabLabel[node.getId()] = new Label(node) ;
+        }
+    }
+    
     @Override
     protected ShortestPathSolution doRun() {
         final ShortestPathData data = getInputData() ;
         ShortestPathSolution solution = null ;
         
-        BinaryHeap<Label> Tas = new BinaryHeap<Label>() ;
-        ArrayList<Arc> listArcs = new ArrayList<Arc>() ;
         Label[] tabLabel = new Label[data.getGraph().size()] ;
         
-        for (Node node: data.getGraph().getNodes()) {
-        	tabLabel[node.getId()] = new Label(node) ;
-        }
+        Initialisation(tabLabel, data.getGraph());
+        
+        BinaryHeap<Label> Tas = new BinaryHeap<Label>() ;
+        ArrayList<Arc> listArcs = new ArrayList<Arc>() ;
         
         Label s = tabLabel[data.getOrigin().getId()] ;
         s.setCost(0) ;
