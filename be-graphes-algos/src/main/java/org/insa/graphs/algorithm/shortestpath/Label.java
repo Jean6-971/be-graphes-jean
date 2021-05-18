@@ -34,8 +34,12 @@ public class Label implements Comparable<Label>{
     
     public void setFather(Arc pere) {this.pere = pere;}
     
+    public double getEstimCost() {return 0 ;}
+    
+    public double getTotalCost() {return this.cout ;}
+    
     public int compareTo(Label other) {
-        return Double.compare(getCost(), other.getCost());
+        return Double.compare(getTotalCost(), other.getTotalCost());
     }
 
 }

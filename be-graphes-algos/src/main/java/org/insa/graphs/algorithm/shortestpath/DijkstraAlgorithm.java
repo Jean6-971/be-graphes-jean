@@ -3,7 +3,6 @@ package org.insa.graphs.algorithm.shortestpath;
 import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Node;
 import org.insa.graphs.model.Path;
-import org.insa.graphs.model.Graph;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -16,8 +15,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         super(data);
     }
 
-    protected void Initialisation(Label[] tabLabel, Graph graph) {
-    	for (Node node: graph.getNodes()) {
+    protected void Initialisation(Label[] tabLabel, ShortestPathData data) {
+    	for (Node node: data.getGraph().getNodes()) {
         	tabLabel[node.getId()] = new Label(node) ;
         }
     }
@@ -29,7 +28,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         Label[] tabLabel = new Label[data.getGraph().size()] ;
         
-        Initialisation(tabLabel, data.getGraph());
+        Initialisation(tabLabel, data);
         
         BinaryHeap<Label> Tas = new BinaryHeap<Label>() ;
         ArrayList<Arc> listArcs = new ArrayList<Arc>() ;
@@ -45,7 +44,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Label x = Tas.findMin() ;
         	Tas.remove(x) ;
         	x.setMark(true) ;
-        	System.out.println(x.getCost());
+        	System.out.println("Le coût total : " + x.getTotalCost() + " du noeud " + x.getSommet().getId() + " et le coût estimé : " + x.getEstimCost());
         	notifyNodeReached(x.getSommet());
         	for (Arc arc : x.getSommet().getSuccessors()) {
         		if (!data.isAllowed(arc)) {
