@@ -123,6 +123,19 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         return this.currentSize == 0;
     }
     
+    public boolean isValid() {
+    	boolean result = true;
+    	if (isEmpty()) {
+            return result;
+    	}
+    	for (E element : this.array) {
+    		if(element.compareTo(this.array.get(this.array.indexOf(element)))==-1) {
+    			result = false;
+    		}
+    	}
+    	return result;
+    }
+    
     public boolean exist(E x) {
     	int index = this.array.indexOf(x);
     	

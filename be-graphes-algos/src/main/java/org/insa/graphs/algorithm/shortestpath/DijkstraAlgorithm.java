@@ -28,10 +28,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         
         Label[] tabLabel = new Label[data.getGraph().size()] ;
         
-        Initialisation(tabLabel, data);
+        this.Initialisation(tabLabel, data);
         
         BinaryHeap<Label> Tas = new BinaryHeap<Label>() ;
-        ArrayList<Arc> listArcs = new ArrayList<Arc>() ;
         
         Label s = tabLabel[data.getOrigin().getId()] ;
         s.setCost(0) ;
@@ -45,13 +44,16 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         	Tas.remove(x) ;
         	x.setMark(true) ;
         	System.out.println("Le coût total : " + x.getTotalCost() + " du noeud " + x.getSommet().getId() + " et le coût estimé : " + x.getEstimCost());
-        	notifyNodeReached(x.getSommet());
+        	notifyNodeMarked(x.getSommet());
+        	int nb_successeur = 0 ;
         	for (Arc arc : x.getSommet().getSuccessors()) {
+        		nb_successeur ++ ;
         		if (!data.isAllowed(arc)) {
                     continue;
                 }
         		Label y = tabLabel[arc.getDestination().getId()] ;
         		if (!y.getMark()) {
+        			notifyNodeReached(y.getSommet());
         			double update = x.getCost() + data.getCost(arc);
         			if (y.getCost() > update) {
         				if (Tas.exist(y)) {
@@ -67,21 +69,27 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         			}
         		}
         	}
+        	System.out.println("Nombre de sucesseur explorés = "+nb_successeur +" et nombre de successeur du node = "+x.getSommet().getNumberOfSuccessors());
+        	System.out.println("tas valide ?"+Tas.isValid());
+        	if(tabLabel[data.getDestination().getId()].getMark()==true) {
+            	System.out.println("Destination trouvé");
+            }
         }
         
-        notifyDestinationReached(data.getDestination());
-        
-        Arc c = d.getFather();
-        while (c != null) {
-        	listArcs.add(c);
-        	c = tabLabel[c.getOrigin().getId()].getFather();
+        if (tabLabel[data.getDestination().getId()].getFather() == null) {
+            solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         }
-        
-        Collections.reverse(listArcs);
-        
-        Path solutionPath = new Path(data.getGraph(), listArcs);
-        
-        solution = new ShortestPathSolution(data, Status.OPTIMAL, solutionPath);
+        else {
+	        notifyDestinationReached(data.getDestination());
+	        ArrayList<Arc> listArcs = new ArrayList<Arc>() ;
+	        Arc c = d.getFather();
+	        while (c != null) {
+	        	listArcs.add(c);
+	        	c = tabLabel[c.getOrigin().getId()].getFather();
+	        }
+	        Collections.reverse(listArcs);
+	        solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(data.getGraph(), listArcs));
+        }
         return solution;
     }
 

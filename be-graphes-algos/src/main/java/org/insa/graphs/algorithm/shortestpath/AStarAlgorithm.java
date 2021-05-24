@@ -1,5 +1,6 @@
 package org.insa.graphs.algorithm.shortestpath;
 
+import org.insa.graphs.algorithm.AbstractInputData;
 import org.insa.graphs.model.Node;
 
 public class AStarAlgorithm extends DijkstraAlgorithm {
@@ -8,10 +9,14 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         super(data);
     }
     
-    protected void Initialisation(LabelStar[] tabLabelstar, ShortestPathData data) {
+    protected void Initialisation(Label[] tabLabel, ShortestPathData data) {
     	for (Node node: data.getGraph().getNodes()) {
-        	tabLabelstar[node.getId()] = new LabelStar(node, node.getPoint().distanceTo(data.getDestination().getPoint())) ;
-        }
+        	if(data.getMode().equals(AbstractInputData.Mode.LENGTH)) {
+        		tabLabel[node.getId()]=new LabelStar(node,node.getPoint().distanceTo(data.getDestination().getPoint()));
+    		}else {
+    			tabLabel[node.getId()]=new LabelStar(node,node.getPoint().distanceTo(data.getDestination().getPoint())/(data.getGraph().getGraphInformation().getMaximumSpeed()*1000/3600));
+    		}
+    	}
     }
     
 }

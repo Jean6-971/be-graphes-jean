@@ -13,8 +13,6 @@ public class LabelStar extends Label implements Comparable<Label> {
 	
 	public double getEstimCost() {return this.coutEstime ;}
     
-    public void setEstimCost(double coutEstime) {this.coutEstime = coutEstime ;}
-    
-    public double getTotalCost() {return super.getTotalCost() + getEstimCost() ;}
+    public double getTotalCost() {return super.getCost() + this.coutEstime ;}
 	
 }
