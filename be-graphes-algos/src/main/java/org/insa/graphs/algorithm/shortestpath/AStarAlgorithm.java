@@ -9,6 +9,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         super(data);
     }
     
+    // Initialisation d'un tableau de labelstar
     protected void Initialisation(Label[] tabLabel, ShortestPathData data) {
     	for (Node node: data.getGraph().getNodes()) {
         	if(data.getMode().equals(AbstractInputData.Mode.LENGTH)) {
